@@ -19,21 +19,25 @@ public class Evaluation {
     Double akurasi;
     int knearest;
     DefaultTableModel tableresult;
+    int weight  = 0;
     
 
-    public Evaluation(KNN nKnn,DefaultTableModel dataUji,int k){
+    public Evaluation(KNN nKnn,DefaultTableModel dataUji,int k,int weight){
         this.knn = nKnn;
         this.knearest = k;
+        this.weight = weight;
         this.setAkurasi(dataUji);
         this.tableresult = new DefaultTableModel();
     }
+    
     
     private void setAkurasi(DefaultTableModel data){
         
         double n=0.0;
         int accurate = 0;
                 
-        ArrayList<Double[]> result = this.knn.doLearn(this.knearest);
+        System.out.println("WEIGHT : "+this.weight);
+        ArrayList<Double[]> result = this.knn.doLearn(this.knearest,this.weight);
         ArrayList<Double[]> dataUji = this.getOriginalDataUji(data);
         
         

@@ -72,7 +72,7 @@ public class Home extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         numberOfK = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        weight = new javax.swing.JTextField();
         KNN = new javax.swing.JRadioButton();
         FKNN = new javax.swing.JRadioButton();
         FKNNC = new javax.swing.JRadioButton();
@@ -126,6 +126,8 @@ public class Home extends javax.swing.JFrame {
 
         jLabel2.setText("Weight");
 
+        weight.setText("2");
+
         KNN.setForeground(new java.awt.Color(0, 0, 204));
         KNN.setText("KNN");
         KNN.addActionListener(new java.awt.event.ActionListener() {
@@ -167,7 +169,7 @@ public class Home extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(weight, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(numberOfK)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +193,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(weight, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(KNN)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -372,10 +374,17 @@ public class Home extends javax.swing.JFrame {
     private void doProsesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doProsesActionPerformed
         this.initializeKnnType();
         if(!this.numberOfK.getText().toString().equalsIgnoreCase("")){
-            Main main = new Main();
-            this.setAkurasi(main.doLearn(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()),this.initializeKnnType()),
+            if(this.KNN.isSelected()){
+              Main main = new Main();
+              this.setAkurasi(main.doLearnKNN(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()),this.initializeKnnType()),
                     this.initializeKnnType());         
-            this.log.setEnabled(true);
+              this.log.setEnabled(true);   
+            }else if(this.FKNN.isSelected()){
+                Main main = new Main();
+                this.setAkurasi(main.doLearnFKNN(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()), this.initializeKnnType(),
+                Integer.parseInt(this.weight.getText().toString())),this.initializeKnnType());
+                this.log.setEnabled(true); 
+            }
         }
         else{
            JOptionPane.showMessageDialog(null, "Nilai K belum diinputkan");
@@ -471,7 +480,8 @@ public class Home extends javax.swing.JFrame {
 
     private void logActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logActionPerformed
         Main main = new Main();
-        main.doLog(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()),this.initializeKnnType());
+        main.doLogKNN(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()),this.initializeKnnType(),
+                Integer.parseInt(this.weight.getText().toString()));
             
     }//GEN-LAST:event_logActionPerformed
    
@@ -480,7 +490,8 @@ public class Home extends javax.swing.JFrame {
           this.akurasiknn.setText(text+"%");   
         }
         else if(type == 2){
-            
+          this.akurasifknn.setVisible(true);
+          this.akurasifknn.setText(text+"%");
         }else if(type == 3){
             
         }
@@ -546,8 +557,8 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton log;
     private javax.swing.JTextField numberOfK;
+    private javax.swing.JTextField weight;
     // End of variables declaration//GEN-END:variables
 }

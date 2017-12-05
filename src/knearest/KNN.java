@@ -24,13 +24,14 @@ public class KNN {
         this.knntype = knntype;
     }
     
-    public ArrayList<Double[]> doLearn(int knearest){
+    public ArrayList<Double[]> doLearn(int knearest,int weight){
         ArrayList<Double[]> result = null;
         switch (this.knntype) {
             case 1:
-                       result =  this.doLearnKNN(knearest,"KNN");
+                       result =  this.doLearnKNN(knearest,"KNN",0);
                 break;
             case 2:
+                       result = this.doLearnKNN(knearest,"FKNN", weight);
                 break;
             case 3:
                 break;
@@ -40,7 +41,9 @@ public class KNN {
         return result;
     }
     
-    private ArrayList<Double[]> doLearnKNN(int knearest,String knntype){
+    
+    
+    private ArrayList<Double[]> doLearnKNN(int knearest,String knntype,int weight){
         ArrayList<Double[]> result = new ArrayList<Double[]>();
         ArrayList<Double[]> temp;
         Double[] attr_temp;
@@ -63,9 +66,9 @@ public class KNN {
               this.sortDistance(temp);
               System.out.println("---Distance Table---");
               this.debugData(temp);
-              System.out.println("akhir debug");
+              System.out.println("");
+              
               Double[] attr = new Double[this.data_uji.get(0).length+1];
-                System.out.println(" attr "+attr.length);
               for(int x=0;x<attr.length;x++){
                   if(x == (attr.length-1)){
                     attr[x] = this.getLabelResult(knearest, temp);
@@ -80,6 +83,20 @@ public class KNN {
               System.out.println("");   
             }
             else if(knntype.equalsIgnoreCase("FKNN")){
+                this.sortDistance(temp);
+                System.out.println("---Distance Table---");
+                this.debugData(temp);
+                FKNN fknn = new FKNN(temp,knearest,weight);
+                Double[] attr = new Double[this.data_uji.get(0).length+1];
+                for(int x=0;x<attr.length;x++){
+                  if(x == (attr.length-1)){
+                    attr[x] = fknn.getFKNNclassification();
+                  }
+                  else{
+                    attr[x] = this.data_uji.get(i)[x];   
+                  }
+               }
+              result.add(attr);
                 
             }
             else if(knntype.equalsIgnoreCase("FKNNC")){
