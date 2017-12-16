@@ -5,9 +5,10 @@ When using this program need to import data (csv) with 9 column.
 #Note :
 Data format :
 
-No = Numbers
-Feature1 - Feature 7 = Numbers
-Label class = Numbers
+No = Numbers,
+Feature1 - Feature 7 = Numbers,
+Label class = Numbers,
 
+Tabel Header:
 No | Feature1 | Feature2 | Feature3 | Feature4 | Feature5 | Feature6 | Feature7 | writer(class label)
  
