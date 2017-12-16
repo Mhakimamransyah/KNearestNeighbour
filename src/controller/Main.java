@@ -41,6 +41,12 @@ public class Main {
         return numberFormat.format(eval.getAkurasi()).toString();
     }
     
+//     DEBUGING METHOD
+    public void doLearnFKNNC(DefaultTableModel uji,DefaultTableModel latih,int knearest,int knntype,int weight){
+        KNN fknnc = new KNN(new DataLatih(latih).getData(),new DataUji(uji).getData(),knntype);
+        fknnc.doLearn(knearest, weight);
+    }
+    
     public void doLogKNN(DefaultTableModel uji,DefaultTableModel latih,int knearest,int knntype,int weight){
         KNN knn = new KNN(new DataLatih(latih).getData(),new DataUji(uji).getData(),knntype);
         Dataset data = new Dataset(knn.doLearn(knearest,weight),uji);

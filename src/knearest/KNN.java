@@ -27,13 +27,19 @@ public class KNN {
     public ArrayList<Double[]> doLearn(int knearest,int weight){
         ArrayList<Double[]> result = null;
         switch (this.knntype) {
-            case 1:
+            case 1:    
+                       System.out.println("---------- KNN(K-NEAREST NEIGHBOUR) ---------");
                        result =  this.doLearnKNN(knearest,"KNN",0);
+                       System.out.println("---------- KNN ---------\n\n\n\n\n");
                 break;
-            case 2:
+            case 2:    System.out.println("---------- FKNN(FUZZY K-NEAREST NEIGHBOUR) ---------");
                        result = this.doLearnKNN(knearest,"FKNN", weight);
+                       System.out.println("---------- FKNN ---------\n\n\n\n\n");
                 break;
-            case 3:
+            case 3:   
+                      System.out.println("---------- FKNNC(FUZZY K-NEAREST NEIGHBOUR IN CLASS) ---------");
+                      result = this.doLearnKNN(knearest,"FKNNC", weight);
+                      System.out.println("---------- FKNNC ---------\n\n\n\n\n");
                 break;
             default:
                 break;
@@ -64,9 +70,9 @@ public class KNN {
             }
             if(knntype.equalsIgnoreCase("KNN")){
               this.sortDistance(temp);
-              System.out.println("---Distance Table---");
+              System.out.println("1. tabel jarak data");
               this.debugData(temp);
-              System.out.println("");
+              System.out.println("\n");
               
               Double[] attr = new Double[this.data_uji.get(0).length+1];
               for(int x=0;x<attr.length;x++){
@@ -78,13 +84,13 @@ public class KNN {
                   }
               }
               result.add(attr);
-              System.out.println("---Result Table--- ");
+              System.out.println("2. Hasil Klasifikasi : ");
               this.debugData(result);
               System.out.println("");   
             }
             else if(knntype.equalsIgnoreCase("FKNN")){
                 this.sortDistance(temp);
-                System.out.println("---Distance Table---");
+                System.out.println("\n---tabel jarak data---");
                 this.debugData(temp);
                 FKNN fknn = new FKNN(temp,knearest,weight);
                 Double[] attr = new Double[this.data_uji.get(0).length+1];
@@ -100,7 +106,21 @@ public class KNN {
                 
             }
             else if(knntype.equalsIgnoreCase("FKNNC")){
-            
+               this.sortDistance(temp);
+               System.out.println("1. tabel jarak data");
+               this.debugData(temp);
+               System.out.println("\n");
+               FKNNC  fknnc = new FKNNC(this.getAllLabel(temp),temp,knearest,weight);
+               Double[] attr = new Double[this.data_uji.get(0).length+1];
+                for(int x=0;x<attr.length;x++){
+                  if(x == (attr.length-1)){
+                    attr[x] = fknnc.getFKNNCClassification();
+                  }
+                  else{
+                    attr[x] = this.data_uji.get(i)[x];   
+                  }
+               }
+              result.add(attr);
             }
         }     
         return result;
@@ -218,18 +238,18 @@ public class KNN {
                        isi++;
                    }
                    else if((label.get(j)[0]-data.get(i)[data.get(0).length-2])== 0){
-                      if(isi == 0){
-                          isi = 0;
-                      }else{ isi--; }
+//                      if(isi == 0){
+//                          isi = 0;
+//                      }else{ isi--; }
+                      isi = 0;
                       break;
                    }
               }
-              if(isi == 1){
+              if(isi > 0){
                   Double[] temp = new Double[2];
                   temp[0] = data_label;
                   temp[1] = 0.0;
                   label.add(temp);
-                  System.out.println("true "+i);
               }
            }
        }

@@ -39,7 +39,7 @@ public class FKNN {
             }
             temp.add(attr);
         }
-        System.out.println("---DEBUG FKNN---");
+        System.out.println("---"+this.knearest+" Tetangga Terdekat---");
         this.debugData(temp);
         return temp;
     }
@@ -48,6 +48,8 @@ public class FKNN {
 //        TODO : ambil hasil prediksi fknn
         ArrayList<Double[]> temp = this.doFKNN();
         ArrayList<Double[]> label = this.getAllLabel(temp);
+        System.out.println("label");
+        this.debugData(label);
         double sum = this.getSum(temp);
         int attr_size = temp.get(0).length;
         
@@ -58,13 +60,12 @@ public class FKNN {
                  }
              }
         }
-        
+        System.out.println("--- Jumlah Tetangga Terdekat ---");
         for(int x = 0;x<label.size();x++){
-            System.out.println(" sum : "+label.get(x)[1]);
+            System.out.println(label.get(x)[0]+"  "+label.get(x)[1]);
             label.get(x)[1] = label.get(x)[1]/sum; 
         }
        
-        System.out.println(" debug baris : "+label.get(0)[1]);
         System.out.println("--HASIL PREDIKSI--");
         this.debugData(label);
         System.out.println("conclusion : "+this.getConclusion(label));
@@ -132,18 +133,15 @@ public class FKNN {
                        isi++;
                    }
                    else if((label.get(j)[0]-data.get(i)[data.get(0).length-3])== 0){
-                      if(isi == 0){
-                          isi = 0;
-                      }else{ isi--; }
+                     isi = 0;
                       break;
                    }
               }
-              if(isi == 1){
+              if(isi > 0){
                   Double[] temp = new Double[2];
                   temp[0] = data_label;
                   temp[1] = 0.0;
                   label.add(temp);
-                  System.out.println("true "+i);
               }
            }
        }

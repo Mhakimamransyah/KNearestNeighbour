@@ -367,6 +367,7 @@ public class Home extends javax.swing.JFrame {
 
     private void importDataUjiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_importDataUjiActionPerformed
         this.data_uji.setRowCount(0);
+        System.out.println("---DATA UJI---");
         this.setData(data_uji);
         this.deskDataUji.setText("Jumlah Data Uji : "+this.data_uji.getRowCount());
     }//GEN-LAST:event_importDataUjiActionPerformed
@@ -380,6 +381,11 @@ public class Home extends javax.swing.JFrame {
                     this.initializeKnnType());         
               this.log.setEnabled(true);   
             }else if(this.FKNN.isSelected()){
+                Main main = new Main();
+                this.setAkurasi(main.doLearnFKNN(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()), this.initializeKnnType(),
+                Integer.parseInt(this.weight.getText().toString())),this.initializeKnnType());
+                this.log.setEnabled(true); 
+            }else if(this.FKNNC.isSelected()){
                 Main main = new Main();
                 this.setAkurasi(main.doLearnFKNN(data_uji, data_latih,Integer.parseInt(this.numberOfK.getText().toString()), this.initializeKnnType(),
                 Integer.parseInt(this.weight.getText().toString())),this.initializeKnnType());
@@ -418,7 +424,8 @@ public class Home extends javax.swing.JFrame {
                     index++;
                 }       
                 this.setProsesButton();
-                System.out.println("haha : "+table.getRowCount());
+                System.out.println("jumlah data : "+table.getRowCount());
+                System.out.println("");
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(Home.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -439,6 +446,7 @@ public class Home extends javax.swing.JFrame {
     private void ImportDataLatihActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ImportDataLatihActionPerformed
         // TODO add your handling code here:
        this.data_latih.setRowCount(0);
+       System.out.println("---DATA LATIH---");
        this.setData(this.data_latih);
        this.deskDataLatih.setText("Jumlah Data Latih : "+this.data_latih.getRowCount());
     }//GEN-LAST:event_ImportDataLatihActionPerformed
@@ -493,7 +501,8 @@ public class Home extends javax.swing.JFrame {
           this.akurasifknn.setVisible(true);
           this.akurasifknn.setText(text+"%");
         }else if(type == 3){
-            
+           this.akurasifknnc.setVisible(true);
+           this.akurasifknnc.setText(text+"%");
         }
     }
     /**
